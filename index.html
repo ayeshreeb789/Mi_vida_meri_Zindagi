@@ -1,5 +1,67 @@
 <!-- index.html -->
 <!DOCTYPE html>
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Heart Album</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+    .password-container, .gallery-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .password-container input {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+    }
+    .gallery-container img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+    .caption {
+      margin-top: 15px;
+      font-size: 20px;
+      font-style: italic;
+      color: #fce4ec;
+    }
+    .hidden { display: none; }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: white;
+      user-select: none;
+      pointer-events: none;
+      font-size: 24px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="password-container" id="passwordScreen">
+    <input type="password" id="password" placeholder="Enter password..." />
+    <button onclick="checkPassword()">Submit</button>
+  </div>  <div class="gallery-container hidden" id="gallery">
+    <img id="image" src="" alt="Surprise"
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
