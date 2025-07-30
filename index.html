@@ -1,160 +1,160 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meri Zindagi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Vida - Secret Love</title>
   <style>
-    body, html {
+    body {
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      background: black;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    #passwordContainer, #galleryContainer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       background: black;
       color: white;
-      overflow: hidden;
-    }
-    #passwordScreen {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(black, #111);
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      z-index: 9999;
+      z-index: 999;
     }
-    #gallery {
+    #passwordContainer input {
+      padding: 10px;
+      font-size: 18px;
+    }
+    #galleryContainer {
       display: none;
-      height: 100vh;
-      text-align: center;
-      position: relative;
     }
-    img {
+    #gallery img {
       max-width: 90%;
       max-height: 80vh;
       border-radius: 20px;
       box-shadow: 0 0 40px white;
-      transition: all 1s;
+      display: none;
+      margin-bottom: 20px;
     }
-    .line {
-      font-size: 1.6rem;
-      margin-top: 20px;
+    #line {
+      font-size: 24px;
+      color: white;
+      margin-top: 10px;
+      text-align: center;
     }
-    .stars {
+    canvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://media.giphy.com/media/3ov9jExd1Qb0Y6kDlu/giphy.gif') repeat;
-      z-index: 0;
-      opacity: 0.3;
-      pointer-events: none;
-    }
-    #snow {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
+      top: 0;
+      left: 0;
       z-index: 1;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
-<div id="passwordScreen">
+
+<div id="passwordContainer">
   <h2>Enter Password</h2>
-  <input type="password" id="password" placeholder="Enter..." style="padding:10px; font-size:1.2rem" />
-  <button onclick="checkPassword()" style="padding:10px 20px; margin-top:10px; font-size:1rem">Enter</button>
-</div><div id="gallery">
-  <div class="stars"></div>
-  <canvas id="snow"></canvas>
+  <input type="password" id="passwordInput" placeholder="Enter..." />
+  <button onclick="checkPassword()">Submit</button>
+</div>
+
+<div id="galleryContainer">
   <audio autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_6c7bca3e6b.mp3" type="audio/mp3">
   </audio>
-  <img id="image" src="" alt="love pic" />
-  <div class="line" id="caption"></div>
-</div><script>
+  <canvas id="snowCanvas"></canvas>
+  <div id="gallery">
+    <img id="pic" onclick="nextImage()" />
+    <div id="line"></div>
+  </div>
+</div>
+
+<script>
   const password = "AyZu77";
   const images = [
-    "InShot_20250730_141629222.jpg",
-    "InShot_20250730_142110470.jpg",
-    "InShot_20250730_142416634.jpg",
-    "InShot_20250730_142733235.jpg",
-    "InShot_20250730_143412334.jpg",
-    "InShot_20250730_143844600.jpg",
-    "InShot_20250730_145107745.jpg",
-    "InShot_20250730_173739490.jpg",
-    "InShot_20250730_174357979.jpg",
-    "InShot_20250730_174515500.jpg"
+    { src: "InShot_20250730_141629222.jpg", line: "تم میری زندگی کا سب سے خوبصورت راز ہو" },
+    { src: "InShot_20250730_142110470.jpg", line: "میرے ہر لمحے میں تم بسے ہو" },
+    { src: "InShot_20250730_142416634.jpg", line: "تمھاری ہنسی میرے دل کی روشنی ہے" },
+    { src: "InShot_20250730_142733235.jpg", line: "میرے خوابوں کی تعبیر تم ہو" },
+    { src: "InShot_20250730_143412334.jpg", line: "میں نے ہر دعا میں تمھارا نام لیا " },
+    { src: "InShot_20250730_143844600.jpg", line: "تم سے شروع، تم پر ختم" },
+    { src: "InShot_20250730_145107745.jpg", line: "میرے ہر جذبے میں تم ہو" },
+    { src: "InShot_20250730_173739490.jpg", line: "میری خامشی بھی تم کو پکارتی ہے" },
+    { src: "InShot_20250730_174357979.jpg", line: "تم بغیر سب ویران ہے" },
+    { src: "InShot_20250730_174515500.jpg", line: "محبت کی مکمل تشریح صرف تم ہو" }
   ];
-
-  const captions = [
-    "تم ہو تو ہر منظر مکمل ہے",
-    "تیری مسکراہٹ میرے دن کا آغاز ہے",
-    "تیری آنکھوں میں چھپی دنیا میری منزل ہے",
-    "جب تم پاس ہوتے ہو، وقت بھی رک جاتا ہے",
-    "تیری ہنسی میری دھڑکن ہے",
-    "تُو ہو تو خاموشی بھی بول اٹھتی ہے",
-    "تیرا ساتھ میری دنیا کی سب سے خوبصورت جگہ ہے",
-    "محبت تیرے نام سے پہچانی جاتی ہے",
-    "تُو ہے تو سب کچھ ہے، تُو نہ ہو تو کچھ بھی نہیں",
-    "تیرا لمس روح کو سکون دیتا ہے"
-  ];
-
   let current = 0;
 
   function checkPassword() {
-    const input = document.getElementById('password').value;
+    const input = document.getElementById("passwordInput").value;
     if (input === password) {
-      document.getElementById('passwordScreen').style.display = 'none';
-      document.getElementById('gallery').style.display = 'block';
+      document.getElementById("passwordContainer").style.display = "none";
+      document.getElementById("galleryContainer").style.display = "flex";
       showImage();
       startSnow();
     } else {
-      alert("Wrong password!");
+      alert("غلط پاسورڈ!");
     }
   }
 
   function showImage() {
-    document.getElementById('image').src = images[current];
-    document.getElementById('caption').innerText = captions[current];
+    const img = document.getElementById("pic");
+    const line = document.getElementById("line");
+    if (current < images.length) {
+      img.src = images[current].src;
+      img.style.display = "block";
+      line.textContent = images[current].line;
+    }
   }
 
-  document.getElementById('gallery').addEventListener('click', () => {
-    current = (current + 1) % images.length;
-    showImage();
-  });
+  function nextImage() {
+    current++;
+    if (current < images.length) {
+      showImage();
+    } else {
+      document.getElementById("line").textContent = "فقط آپ کافی ہیں مہرے لیے 🌙";
+    }
+  }
 
   function startSnow() {
-    const canvas = document.getElementById("snow");
+    const canvas = document.getElementById("snowCanvas");
     const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    let snowflakes = [];
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const flakes = Array(200).fill().map(() => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 4 + 1,
+      d: Math.random() + 1
+    }));
 
-    function createSnowflake() {
-      return {
-        x: Math.random() * canvas.width,
-        y: 0,
-        radius: Math.random() * 4 + 1,
-        speed: Math.random() * 3 + 1
-      };
+    function drawFlakes() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "white";
+      ctx.beginPath();
+      for (let f of flakes) {
+        ctx.moveTo(f.x, f.y);
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+      }
+      ctx.fill();
+      moveFlakes();
     }
 
-    function updateSnowflakes() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      snowflakes.forEach((s, i) => {
-        s.y += s.speed;
-        if (s.y > canvas.height) snowflakes[i] = createSnowflake();
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
-        ctx.fillStyle = "white";
-        ctx.fill();
-      });
+    function moveFlakes() {
+      for (let f of flakes) {
+        f.y += f.d;
+        if (f.y > height) {
+          f.y = 0;
+          f.x = Math.random() * width;
+        }
+      }
     }
 
-    setInterval(() => {
-      snowflakes.push(createSnowflake());
-      if (snowflakes.length > 100) snowflakes.shift();
-      updateSnowflakes();
-    }, 30);
+    setInterval(drawFlakes, 33);
   }
-</script></body>
+</script>
+</body>
 </html>
