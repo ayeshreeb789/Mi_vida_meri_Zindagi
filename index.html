@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Meri Zindagi</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    #passwordScreen {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to right, #000000, #434343);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    #passwordInput {
+      padding: 10px;
+      font-size: 20px;
+      border-radius: 10px;
+      border: none;
+    }
+    #enterBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      background: #ff4081;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #slideshow {
+      display: none;
+      padding: 20px;
+    }
+    .image-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s ease;
+    }
+    img {
+      max-width: 90%;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+    }
+    .caption {
+      margin-top: 15px;
+      font-size: 20px;
+      color: #ffb6c1;
+      animation: stars 2s ease infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes stars {
+      0% { text-shadow: 0 0 5px #fff; }
+      50% { text-shadow: 0 0 20px #ff0, 0 0 30px #f0f; }
+      100% { text-shadow: 0 0 5px #fff; }
+    }
+
+    /* Snow effect */
+    .snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background-image: url('https://i.ibb.co/smmyJQJ/snow.gif');
+      background-size: cover;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Password Screen -->
+<div id="passwordScreen">
+  <h2>Enter the secret password</h2>
+  <input type="password" id="passwordInput" placeholder="Enter Password">
+  <button id="enterBtn">Enter</button>
+</div>
+
+<!-- Snow Effect -->
+<div class="snow" style="display: none;"></div>
+
+<!-- Background Audio -->
+<audio id="bgMusic" src="https://www.fesliyanstudios.com/play-mp3/387" loop autoplay></audio>
+
+<!-- Slideshow -->
+<div id="slideshow">
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_141629222.jpg">
+    <div class="caption">تم نظر آؤ تو سانسیں بھی مسکرا اٹھتی ہیں</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_142110470.jpg">
+    <div class="caption">میری دنیا تمہارے لمس سے مکمل ہے</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_142416634.jpg">
+    <div class="caption">ہر دھڑکن میں بس ایک ہی صدا — تم</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_142733235.jpg">
+    <div class="caption">تم پاس ہو تو لمحے بھی گنگناتے ہیں</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_143412334.jpg">
+    <div class="caption"> صرف میری زووو</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_143844600.jpg">
+    <div class="caption">میری خاموشیوں میں تمہاری آواز ہے</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_145107745.jpg">
+    <div class="caption">تم سے بڑھ کر کچھ نہیں میرے لیے</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_173739490.jpg">
+    <div class="caption">میرے خوابوں کی تعبیر تم ہی ہو</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_174357979.jpg">
+    <div class="caption">ہر رات تم سے ملنے کی دعا کرتی ہوں</div>
+  </div>
+  <div class="image-container">
+    <img src="https://raw.githubusercontent.com/ayeshreeb789/Mi_vida_meri_Zindagi/main/InShot_20250730_174515500.jpg">
+    <div class="caption">تم ہی روشنی، تم ہی سکون</div>
+  </div>
+</div>
+
+<script>
+  const password = "AyZu77";
+  const enterBtn = document.getElementById("enterBtn");
+  const input = document.getElementById("passwordInput");
+  const passwordScreen = document.getElementById("passwordScreen");
+  const slideshow = document.getElementById("slideshow");
+  const snow = document.querySelector(".snow");
+  const images = document.querySelectorAll(".image-container");
+  let index = 0;
+
+  enterBtn.addEventListener("click", () => {
+    if (input.value === password) {
+      passwordScreen.style.display = "none";
+      snow.style.display = "block";
+      slideshow.style.display = "flex";
+      images[0].style.display = "flex";
+    } else {
+      alert("غلط پاسورڈ!");
+    }
+  });
+
+  document.body.addEventListener("click", () => {
+    if (slideshow.style.display === "flex") {
+      images[index].style.display = "none";
+      index++;
+      if (index < images.length) {
+        images[index].style.display = "flex";
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
