@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ur">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>میرے دل کا تحفہ</title>
   <style>
     * {
@@ -12,8 +13,8 @@
     }
     body {
       background: black;
-      overflow: hidden;
       color: white;
+      overflow: hidden;
     }
     #password-page, #gallery-page {
       display: none;
@@ -59,12 +60,15 @@
     }
     .stars {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
-      background: url('https://i.imgur.com/O3ZCjvT.png');
+      background: url('https://i.imgur.com/O3ZCjvT.png') repeat;
       animation: twinkle 3s infinite;
       opacity: 0.4;
+      pointer-events: none;
+      border-radius: 10px;
     }
     @keyframes twinkle {
       0% { opacity: 0.3; }
@@ -79,18 +83,24 @@
 <body>
   <audio autoplay loop>
     <source src="https://files.catbox.moe/mr5yod.mp3" type="audio/mp3">
-  </audio>  <div id="password-page" class="active">
+  </audio>
+
+  <div id="password-page" class="active">
     <h2>پاسورڈ درج کریں</h2>
     <input type="password" id="password-input" placeholder="محبت کا راز" />
     <button onclick="checkPassword()">کھولیں</button>
-  </div>  <div id="gallery-page">
+  </div>
+
+  <div id="gallery-page">
     <div class="image-box">
       <div class="stars"></div>
       <img id="gallery-image" src="" alt="Love Image" />
       <div class="caption" id="caption-text"></div>
     </div>
     <button onclick="nextImage()">اگلی تصویر</button>
-  </div>  <script>
+  </div>
+
+  <script>
     const correctPassword = "AyZu77";
     const passwordInput = document.getElementById('password-input');
     const passwordPage = document.getElementById('password-page');
@@ -98,31 +108,47 @@
     const galleryImage = document.getElementById('gallery-image');
     const captionText = document.getElementById('caption-text');
 
-     const password = "AyZu77";
-  const images = [
-    { src: "InShot_20250730_141629222.jpg", line: "تم میری زندگی کا سب سے خوبصورت راز ہو" },
-    { src: "InShot_20250730_142110470.jpg", line: "میرے ہر لمحے میں تم بسے ہو" },
-    { src: "InShot_20250730_142416634.jpg", line: "تمھاری ہنسی میرے دل کی روشنی ہے" },
-    { src: "InShot_20250730_142733235.jpg", line: "میرے خوابوں کی تعبیر تم ہو" },
-    { src: "InShot_20250730_143412334.jpg", line: " ہر دعا کا آغاز اور اختتام تو" },
-    { src: "InShot_20250730_143844600.jpg", line: "تم سے شروع، تم پر ختم" },
-    { src: "InShot_20250730_145107745.jpg", line: "میرے ہر جذبے میں تم ہو" },
-    { src: "InShot_20250730_173739490.jpg", line: "میری خامشی بھی تم کو پکارتی ہے" },
-    { src: "InShot_20250730_174357979.jpg", line: "میری زندگی ہے تو" },
-    { src: "InShot_20250730_174515500.jpg", line: "محبت کی مکمل تشریح صرف تم ہو" }
-  ];
-
-    const captions = [
-      "میری زندگی کی پہلی خوشبو تم ہو ♥",
-      "ہر پل میں تمہاری یاد بسی رہتی ہے",
-      "تمہاری ہنسی میرے دن کی روشنی ہے",
-      "میری خاموش دعاؤں کی قبولیت تم",
-      "دل کی دھڑکن کا ہر ساز تم سے",
-      "میرے ہر خواب کی تعبیر تم ہو",
-      "تم سے مل کر ہر دکھ مٹ گیا",
-      "میری ہر سانس تمہاری امانت ہے",
-      "میری دنیا تم سے رنگین ہے",
-      "بس تم ہی کافی ہو۔۔۔ 💖"
+    const images = [
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_141629222.jpg",
+        line: "تم میری زندگی کا سب سے خوبصورت راز ہو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_142110470.jpg",
+        line: "میرے ہر لمحے میں تم بسے ہو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_142416634.jpg",
+        line: "تمھاری ہنسی میرے دل کی روشنی ہے"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_142733235.jpg",
+        line: "میرے خوابوں کی تعبیر تم ہو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_143412334.jpg",
+        line: "ہر دعا کا آغاز اور اختتام تو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_143844600.jpg",
+        line: "تم سے شروع، تم پر ختم"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_145107745.jpg",
+        line: "میرے ہر جذبے میں تم ہو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_173739490.jpg",
+        line: "میری خامشی بھی تم کو پکارتی ہے"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_174357979.jpg",
+        line: "میری زندگی ہے تو"
+      },
+      {
+        src: "https://raw.githubusercontent.com/yourusername/yourrepo/main/InShot_20250730_174515500.jpg",
+        line: "محبت کی مکمل تشریح صرف تم ہو"
+      }
     ];
 
     let currentIndex = 0;
@@ -138,8 +164,9 @@
     }
 
     function showImage() {
-      galleryImage.src = images[currentIndex];
-      captionText.innerText = captions[currentIndex];
+      const current = images[currentIndex];
+      galleryImage.src = current.src;
+      captionText.innerText = current.line;
     }
 
     function nextImage() {
@@ -147,8 +174,10 @@
         currentIndex++;
         showImage();
       } else {
-        alert("یہ آخری تصویر تھی۔");
+        galleryImage.style.display = "none";
+        captionText.innerText = "بس تم ہی کافی ہو۔۔۔ 💖";
       }
     }
-  </script></body>
+  </script>
+</body>
 </html>
