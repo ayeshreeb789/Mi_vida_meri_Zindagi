@@ -1,160 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Vida - Secret Love</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Heart Album</title>
   <style>
     body {
       margin: 0;
-      overflow: hidden;
-      background: black;
       font-family: 'Segoe UI', sans-serif;
-    }
-    #passwordContainer, #galleryContainer {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: black;
+      background-color: #000;
+      overflow: hidden;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 999;
-    }
-    #passwordContainer input {
-      padding: 10px;
-      font-size: 18px;
-    }
-    #galleryContainer {
-      display: none;
-    }
-    #gallery img {
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 20px;
-      box-shadow: 0 0 40px white;
-      display: none;
-      margin-bottom: 20px;
-    }
-    #line {
-      font-size: 24px;
-      color: white;
-      margin-top: 10px;
       text-align: center;
     }
-    canvas {
+    .password-container, .gallery-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .password-container input {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+    }
+    .gallery-container img {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      transition: transform 0.5s ease;
+    }
+    .gallery-container img:hover {
+      transform: scale(1.02);
+    }
+    .caption {
+      margin-top: 15px;
+      font-size: 22px;
+      font-style: italic;
+      color: #fce4ec;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    .hidden { display: none; }
+    .snowflake, .star {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1;
+      top: -10px;
+      color: white;
+      user-select: none;
       pointer-events: none;
+      font-size: 24px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="password-container" id="passwordScreen">
+    <input type="password" id="password" placeholder="Enter password..." />
+    <button onclick="checkPassword()">Submit</button>
+  </div>  <div class="gallery-container hidden" id="gallery">
+    <img id="image" src="" alt="Surprise" onclick="nextImage()" />
+    <div class="caption" id="caption"></div>
+  </div>  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/audio/2023/02/14/audio_c957da53a1.mp3" type="audio/mpeg" />
+  </audio>  <script>
+    const correctPassword = "AyZu77";
+    const passwordScreen = document.getElementById("passwordScreen");
+    const gallery = document.getElementById("gallery");
+    const image = document.getElementById("image");
+    const caption = document.getElementById("caption");
 
-<div id="passwordContainer">
-  <h2>Enter Password</h2>
-  <input type="password" id="passwordInput" placeholder="Enter..." />
-  <button onclick="checkPassword()">Submit</button>
-</div>
-
-<div id="galleryContainer">
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_6c7bca3e6b.mp3" type="audio/mp3">
-  </audio>
-  <canvas id="snowCanvas"></canvas>
-  <div id="gallery">
-    <img id="pic" onclick="nextImage()" />
-    <div id="line"></div>
-  </div>
-</div>
-
-<script>
-  const password = "AyZu77";
-  const images = [
-    { src: "InShot_20250730_141629222.jpg", line: "تم میری زندگی کا سب سے خوبصورت راز ہو" },
-    { src: "InShot_20250730_142110470.jpg", line: "میرے ہر لمحے میں تم بسے ہو" },
-    { src: "InShot_20250730_142416634.jpg", line: "تمھاری ہنسی میرے دل کی روشنی ہے" },
-    { src: "InShot_20250730_142733235.jpg", line: "میرے خوابوں کی تعبیر تم ہو" },
-    { src: "InShot_20250730_143412334.jpg", line: "میں نے ہر دعا میں تمھارا نام لیا " },
-    { src: "InShot_20250730_143844600.jpg", line: "تم سے شروع، تم پر ختم" },
-    { src: "InShot_20250730_145107745.jpg", line: "میرے ہر جذبے میں تم ہو" },
-    { src: "InShot_20250730_173739490.jpg", line: "میری خامشی بھی تم کو پکارتی ہے" },
-    { src: "InShot_20250730_174357979.jpg", line: "تم بغیر سب ویران ہے" },
-    { src: "InShot_20250730_174515500.jpg", line: "محبت کی مکمل تشریح صرف تم ہو" }
-  ];
-  let current = 0;
-
-  function checkPassword() {
-    const input = document.getElementById("passwordInput").value;
-    if (input === password) {
-      document.getElementById("passwordContainer").style.display = "none";
-      document.getElementById("galleryContainer").style.display = "flex";
-      showImage();
-      startSnow();
-    } else {
-      alert("غلط پاسورڈ!");
-    }
-  }
-
-  function showImage() {
-    const img = document.getElementById("pic");
-    const line = document.getElementById("line");
-    if (current < images.length) {
-      img.src = images[current].src;
-      img.style.display = "block";
-      line.textContent = images[current].line;
-    }
-  }
-
-  function nextImage() {
-    current++;
-    if (current < images.length) {
-      showImage();
-    } else {
-      document.getElementById("line").textContent = "فقط آپ کافی ہیں مہرے لیے 🌙";
-    }
-  }
-
-  function startSnow() {
-    const canvas = document.getElementById("snowCanvas");
-    const ctx = canvas.getContext("2d");
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    const flakes = Array(200).fill().map(() => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: Math.random() * 4 + 1,
-      d: Math.random() + 1
-    }));
-
-    function drawFlakes() {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "white";
-      ctx.beginPath();
-      for (let f of flakes) {
-        ctx.moveTo(f.x, f.y);
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+    const photos = [
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_141629222.jpg",
+        text: "میری ہر صبح تم سے روشن ہے تمہارے بغیر فقط ویرانی ہے... ☀️"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_142110470.jpg",
+        text: "تم مسکراؤ تو لگتا ہے دنیا ٹھہر گئی ہو... 💫"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_142416634.jpg",
+        text: "میری ذات کا ہر لمحہ تمہارے نام ہے... ❤️"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_142733235.jpg",
+        text: "تم ہو تو ہر پل حیات لگتا ہے... 🌙"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_143412334.jpg",
+        text: "تمہاری ہنسی میری زندگی ہے... 🏆"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_143844600.jpg",
+        text: "تمہارے بنا سب ادھورا ہے... 💔"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_145107745.jpg",
+        text: "میری روح کی روح ہو تم.. 💭"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_173739490.jpg",
+        text: "تم ہو تو موسم بھی نغمہ بن جائے... 🎶"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_174357979.jpg",
+        text: "میری ہر دعا کا آغاز تو اختیام تو... 🕊️"
+      },
+      {
+        src: "https://raw.githubusercontent.com/ayeshreeb789/projects/main/InShot_20250730_174515500.jpg",
+        text: "تم ہو تو زندگی خواب جیسی لگتی ہے... ✨"
       }
-      ctx.fill();
-      moveFlakes();
-    }
+    ];
 
-    function moveFlakes() {
-      for (let f of flakes) {
-        f.y += f.d;
-        if (f.y > height) {
-          f.y = 0;
-          f.x = Math.random() * width;
-        }
+    let index = 0;
+
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === correctPassword) {
+        passwordScreen.classList.add("hidden");
+        gallery.classList.remove("hidden");
+        showEffects();
+        showImage();
+      } else {
+        alert("Wrong password!");
       }
     }
 
-    setInterval(drawFlakes, 33);
-  }
-</script>
-</body>
+    function showImage() {
+      image.src = photos[index].src;
+      caption.textContent = photos[index].text;
+      caption.style.animation = 'none';
+      caption.offsetHeight; // reflow to restart animation
+      caption.style.animation = null;
+    }
+
+    function nextImage() {
+      index++;
+      if (index < photos.length) {
+        showImage();
+      } else {
+        caption.textContent = "بس تم ہی کافی ہو...💖";
+        image.style.display = "none";
+      }
+    }
+
+    function showEffects() {
+      for (let i = 0; i < 40; i++) {
+        const snow = document.createElement("div");
+        snow.textContent = "❄️";
+        snow.classList.add("snowflake");
+        snow.style.left = Math.random() * 100 + "vw";
+        snow.style.animationDuration = 2 + Math.random() * 3 + "s";
+        snow.style.fontSize = 12 + Math.random() * 20 + "px";
+        document.body.appendChild(snow);
+
+        const star = document.createElement("div");
+        star.textContent = "✨";
+        star.classList.add("star");
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.animationDuration = 1 + Math.random() * 2 + "s";
+        star.style.fontSize = 10 + Math.random() * 15 + "px";
+        document.body.appendChild(star);
+      }
+    }
+  </script></body>
 </html>
